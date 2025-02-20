@@ -1,0 +1,36 @@
+managed implementation in class zbp_i_zos_02_student unique;
+strict ( 2 );
+
+define behavior for ZI_ZOS_02_STUDENT alias Student
+persistent table zos_02_t_student
+lock master
+authorization master ( instance )
+//etag master <field_name>
+{
+  create;
+  update;
+  delete;
+  field ( numbering : managed, readonly ) Id;
+  field ( readonly ) GenderDesc, CourseDesc, DetermineAge;
+
+  action ( features : instance ) setAdmitted result [1] $self;
+  action ( features : instance ) setNotAdmitted result [1] $self;
+
+  validation checkCourse on save { create; update; }
+  determination DetermineAge on save { field Age; }
+
+  mapping for zos_02_t_student
+    {
+      Id             = id;
+      FirstName      = firstname;
+      LastName       = lastname;
+      Age            = age;
+      Course         = course;
+      CourseDuration = courseduration;
+      Status         = status;
+      Gender         = gender;
+      Dob            = dob;
+      DetermineAge   = determineage;
+    }
+
+}

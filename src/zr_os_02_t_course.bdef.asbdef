@@ -1,0 +1,49 @@
+managed implementation in class ZBP_R_OS_02_T_COURSE unique;
+strict ( 2 );
+with draft;
+define behavior for ZR_OS_02_T_COURSE alias ZrOs02TCourse
+persistent table ZOS_02_T_COURSE
+draft table ZOS_02_T_COURS_D
+etag master LocalLastChangedAt
+lock master total etag LastChangedAt
+authorization master( global )
+
+{
+  field ( mandatory : create )
+   Course;
+
+  field ( readonly )
+   LocalCreatedBy,
+   LocalCreatedAt,
+   LocalLastChangedBy,
+   LocalLastChangedAt,
+   LastChangedAt;
+
+  field ( readonly : update )
+   Course;
+
+
+  create;
+  update;
+  delete;
+
+  draft action Activate optimized;
+  draft action Discard;
+  draft action Edit;
+  draft action Resume;
+  draft determine action Prepare;
+
+  mapping for ZOS_02_T_COURSE
+  {
+    Course = course;
+    Coursedesc = coursedesc;
+    Difficulty = difficulty;
+    Price = price;
+    Currency = currency;
+    LocalCreatedBy = local_created_by;
+    LocalCreatedAt = local_created_at;
+    LocalLastChangedBy = local_last_changed_by;
+    LocalLastChangedAt = local_last_changed_at;
+    LastChangedAt = last_changed_at;
+  }
+}
